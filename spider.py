@@ -2,6 +2,7 @@ from urllib.request import urlopen
 from link_finder import LinkFinder
 from domain import *
 from general import *
+import ssl
 
 
 class Spider:
@@ -47,7 +48,8 @@ class Spider:
     def gather_links(page_url):
         html_string = ''
         try:
-            response = urlopen(page_url)
+            context = ssl._create_unverified_context()
+            response = urlopen(page_url, context=context)
             if 'text/html' in response.getheader('Content-Type'):
                 html_bytes = response.read()
                 html_string = html_bytes.decode("utf-8")
